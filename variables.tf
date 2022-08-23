@@ -35,7 +35,6 @@ variable "pvt_key_path" {
   description = "Path to SSH private key for all nodes"
   type        = string
   default     = ""
-
 }
 
 variable "pvt_key" {
