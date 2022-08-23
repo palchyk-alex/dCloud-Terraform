@@ -27,7 +27,21 @@ variable "pm_node_name" {
   type        = string
 }
 
+<<<<<<< Updated upstream
 variable "pvt_key" {}
+=======
+variable "pvt_key_path" {
+  description = "Path to SSH private key for all nodes"
+  type        = string
+  default     = ""
+
+}
+
+variable "pvt_key" {
+  description = "SSH private key for all nodes"
+  type        = string
+  default     = ""
+>>>>>>> Stashed changes
 
 variable "num_k3s_masters" {
   default = 1
