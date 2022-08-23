@@ -3,7 +3,7 @@ variable "pm_user" {
   description = "The username for the proxmox user"
   type        = string
   sensitive   = false
-  default     = "root@pam"
+  default     = ""
 }
 
 variable "pm_password" {
