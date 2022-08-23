@@ -1,14 +1,16 @@
+# ========== Proxmox Variables
 variable "pm_user" {
   description = "The username for the proxmox user"
   type        = string
   sensitive   = false
   default     = "root@pam"
-
 }
+
 variable "pm_password" {
   description = "The password for the proxmox user"
   type        = string
   sensitive   = true
+  default     = ""
 }
 
 variable "pm_tls_insecure" {
@@ -20,16 +22,15 @@ variable "pm_tls_insecure" {
 variable "pm_host" {
   description = "The hostname or IP of the proxmox server"
   type        = string
+  default     = ""
 }
 
 variable "pm_node_name" {
-  description = "name of the proxmox node to create the VMs on"
+  description = "Name of the proxmox node to create the VMs on"
   type        = string
+  default     = ""
 }
 
-<<<<<<< Updated upstream
-variable "pvt_key" {}
-=======
 variable "pvt_key_path" {
   description = "Path to SSH private key for all nodes"
   type        = string
@@ -41,38 +42,110 @@ variable "pvt_key" {
   description = "SSH private key for all nodes"
   type        = string
   default     = ""
->>>>>>> Stashed changes
-
-variable "num_k3s_masters" {
-  default = 1
 }
 
-variable "num_k3s_masters_mem" {
-  default = "4096"
-}
-
-variable "num_k3s_nodes" {
-  default = 2
-}
-
-variable "num_k3s_nodes_mem" {
-  default = "4096"
-}
-
-variable "tamplate_vm_name" {}
-
-variable "master_ips" {
-  description = "List of ip addresses for master nodes"
-}
-
-variable "worker_ips" {
-  description = "List of ip addresses for worker nodes"
+# ========== Nodes common variables
+variable "gateway" {
+  description = "Default Gateway on created VMs"
+  type        = string
+  default     = ""
 }
 
 variable "networkrange" {
-  default = 24
+  description = "CIDR block bits"
+  type        = number
+  default     = 0
 }
 
-variable "gateway" {
-  default = "10.20.20.1"
+variable "tamplate_vm_name" {
+  description = "Name of template from which to create nodes"
+  type        = string
+  default     = ""
 }
+
+# ========== Master nodes variables
+variable "node_master_count" {
+  description = "Number of master nodes"
+  type        = number
+  default     = 0
+}
+
+variable "node_master_memory" {
+  description = "RAM on master nodes"
+  type        = string
+  default     = ""
+}
+
+variable "node_master_cores" {
+  description = "Cores on master nodes"
+  type        = number
+  default     = 0
+}
+
+variable "node_master_ips" {
+  description = "List of ip addresses for master nodes"
+  type        = list(string)
+  default     = [""]
+}
+
+variable "node_master_disk_type" {
+  description = "Type of storage on master node"
+  type        = string
+  default     = ""
+}
+
+variable "node_master_disk_storage" {
+  description = "Proxmox storage to store masters VMs disks"
+  type        = string
+  default     = ""
+}
+
+variable "node_master_disk_size" {
+  description = "Size of disks for masters VMs"
+  type        = string
+  default     = ""
+}
+
+# ========== Worker nodes variables
+variable "node_worker_count" {
+  description = "Number of worker nodes"
+  type        = number
+  default     = 0
+}
+
+variable "node_worker_memory" {
+  description = "RAM on worker nodes"
+  type        = string
+  default     = ""
+}
+
+variable "node_worker_cores" {
+  description = "Cores on worker nodes"
+  type        = number
+  default     = 0
+}
+
+variable "node_worker_ips" {
+  description = "List of ip addresses for worker nodes"
+  type        = list(string)
+  default     = [""]
+}
+
+variable "node_worker_disk_type" {
+  description = "Type of storage on worker node"
+  type        = string
+  default     = ""
+}
+
+variable "node_worker_disk_storage" {
+  description = "Proxmox storage to store workers VMs disks"
+  type        = string
+  default     = ""
+}
+
+variable "node_worker_disk_size" {
+  description = "Size of disks for workers VMs"
+  type        = string
+  default     = ""
+}
+
