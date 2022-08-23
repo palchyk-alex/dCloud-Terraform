@@ -1,19 +1,20 @@
 resource "proxmox_vm_qemu" "proxmox_vm_master" {
-  count       = var.num_k3s_masters
+  count       = var.node_master_count
   name        = "k3s-master-${count.index}"
   target_node = var.pm_node_name
   clone       = var.tamplate_vm_name
   os_type     = "cloud-init"
-  disk {
-    type = "scsi"
-    storage = "local-dl385p8"
-    size = "20G"
-  }
   agent       = 1
-  memory      = var.num_k3s_masters_mem
-  cores       = 4
+  memory      = var.node_master_memory
+  cores       = var.node_master_cores
 
-  ipconfig0 = "ip=${var.master_ips[count.index]}/${var.networkrange},gw=${var.gateway}"
+  ipconfig0 = "ip=${var.node_master_ips[count.index]}/${var.networkrange},gw=${var.gateway}"
+
+  disk {
+    type    = var.node_master_disk_type
+    storage = var.node_master_disk_storage
+    size    = var.node_master_disk_size
+  }
 
   lifecycle {
     ignore_changes = [
@@ -23,25 +24,25 @@ resource "proxmox_vm_qemu" "proxmox_vm_master" {
       network
     ]
   }
-
 }
 
 resource "proxmox_vm_qemu" "proxmox_vm_workers" {
-  count       = var.num_k3s_nodes
+  count       = var.node_worker_count
   name        = "k3s-worker-${count.index}"
   target_node = var.pm_node_name
   clone       = var.tamplate_vm_name
   os_type     = "cloud-init"
-  disk {
-    type = "scsi"
-    storage = "local-dl385p8"
-    size = "20G"
-  }
   agent       = 1
-  memory      = var.num_k3s_nodes_mem
-  cores       = 4
+  memory      = var.node_worker_memory
+  cores       = var.node_worker_cores
 
-  ipconfig0 = "ip=${var.worker_ips[count.index]}/${var.networkrange},gw=${var.gateway}"
+  ipconfig0 = "ip=${var.node_worker_ips[count.index]}/${var.networkrange},gw=${var.gateway}"
+
+  disk {
+    type    = var.node_worker_disk_type
+    storage = var.node_worker_disk_storage
+    size    = var.node_worker_disk_size
+  }
 
   lifecycle {
     ignore_changes = [
@@ -51,7 +52,6 @@ resource "proxmox_vm_qemu" "proxmox_vm_workers" {
       network
     ]
   }
-
 }
 
 data "template_file" "k8s" {
