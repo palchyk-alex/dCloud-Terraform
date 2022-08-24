@@ -2,9 +2,7 @@ curl -sfL https://get.k3s.io | sh -s - ${mode} \
 %{ for component in disable ~}
 --disable ${component} \
 %{ endfor ~}
-%{ for alt in alt_names ~}
---tls-san "${alt}" \
-%{ endfor ~}
+--tls-san "${alt_names}" \
 %{ for token in tokens ~}
 --token "${token}" \
 %{ endfor ~}

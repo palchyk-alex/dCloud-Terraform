@@ -31,12 +31,20 @@ resource "proxmox_vm_qemu" "proxmox_vm_master" {
     ]
   }
 
+  connection {
+    type        = "ssh"
+    user        = "root"
+    password    = var.pm_password
+    host        = var.node_master_ips[count.index]
+    port        = 22
+  }
+
   provisioner "remote-exec" {
     inline = [
       templatefile("./scripts/install-k3s-server.sh.tftpl", {
         mode         = "server"
         tokens       = [random_password.k3s-server-token.result]
-        alt_names    = var.pm_api_hostnames
+        alt_names    = var.pm_api_hostname
         disable      = var.k3s_disable_components
       })
     ]

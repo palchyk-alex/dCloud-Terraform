@@ -1,9 +1,9 @@
 # ========== Proxmox Variables
-variable "pm_api_hostnames" {
-  description = "IPs or hostname for Proxmox API"
-  type        = list(string)
+variable "pm_api_hostname" {
+  description = "IP or hostname for Proxmox API"
+  type        = string
   sensitive   = false
-  default     = [""]
+  default     = ""
 }
 
 variable "pm_user" {
@@ -161,5 +161,4 @@ variable "k3s_disable_components" {
   type        = list(string)
   default     = [""]
 }
-
 
