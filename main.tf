@@ -1,3 +1,9 @@
+resource "random_password" "k3s-server-token" {
+  length           = 32
+  special          = false
+  override_special = "_%@"
+}
+
 resource "proxmox_vm_qemu" "proxmox_vm_master" {
   count       = var.node_master_count
   name        = "k3s-master-${count.index}"
@@ -24,9 +30,26 @@ resource "proxmox_vm_qemu" "proxmox_vm_master" {
       network
     ]
   }
+
+  provisioner "remote-exec" {
+    inline = [
+      templatefile("./scripts/install-k3s-server.sh.tftpl", {
+        mode         = "server"
+        tokens       = [random_password.k3s-server-token.result]
+        alt_names    = var.pm_api_hostnames
+        server_hosts = []
+        node_taints  = ["CriticalAddonsOnly=true:NoExecute"]
+        disable      = var.k3s_disable_components
+      })
+    ]
+  }
 }
 
 resource "proxmox_vm_qemu" "proxmox_vm_workers" {
+  depends_on = [
+    proxmox_vm_qemu.proxmox_vm_master,
+  ]
+
   count       = var.node_worker_count
   name        = "k3s-worker-${count.index}"
   target_node = var.pm_node_name
@@ -52,18 +75,5 @@ resource "proxmox_vm_qemu" "proxmox_vm_workers" {
       network
     ]
   }
-}
-
-data "template_file" "k8s" {
-  template = file("./templates/k8s.tpl")
-  vars = {
-    k3s_master_ip = "${join("\n", [for instance in proxmox_vm_qemu.proxmox_vm_master : join("", [instance.default_ipv4_address, " ansible_ssh_private_key_file=", var.pvt_key_path])])}"
-    k3s_node_ip   = "${join("\n", [for instance in proxmox_vm_qemu.proxmox_vm_workers : join("", [instance.default_ipv4_address, " ansible_ssh_private_key_file=", var.pvt_key_path])])}"
-  }
-}
-
-resource "local_file" "k8s_file" {
-  content  = data.template_file.k8s.rendered
-  filename = "./inventory/hosts.ini"
 }
 
