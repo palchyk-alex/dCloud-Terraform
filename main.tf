@@ -82,15 +82,21 @@ resource "proxmox_vm_qemu" "proxmox_vm_workers" {
     ]
   }
 
+  connection {
+    type        = "ssh"
+    user        = "root"
+    password    = var.pm_password
+    host        = var.node_worker_ips[count.index]
+    port        = 22
+  }
+
   provisioner "remote-exec" {
     inline = [
       templatefile("./scripts/install-k3s-server.sh.tftpl", {
         mode         = "agent"
         tokens       = [random_password.k3s-server-token.result]
-        alt_names    = []
+        alt_names    = ""
         disable      = []
-        datastores   = []
-
       })
     ]
   }
