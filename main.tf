@@ -85,7 +85,7 @@ resource "proxmox_vm_qemu" "proxmox_vm_workers" {
   connection {
     type        = "ssh"
     user        = "root"
-    password    = var.pm_password
+    private_key = var.pvt_key
     host        = var.node_worker_ips[count.index]
     port        = 22
   }
