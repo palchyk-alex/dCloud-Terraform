@@ -37,8 +37,6 @@ resource "proxmox_vm_qemu" "proxmox_vm_master" {
         mode         = "server"
         tokens       = [random_password.k3s-server-token.result]
         alt_names    = var.pm_api_hostnames
-        server_hosts = []
-        node_taints  = ["CriticalAddonsOnly=true:NoExecute"]
         disable      = var.k3s_disable_components
       })
     ]
@@ -73,6 +71,19 @@ resource "proxmox_vm_qemu" "proxmox_vm_workers" {
       sshkeys,
       disk,
       network
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      templatefile("./scripts/install-k3s-server.sh.tftpl", {
+        mode         = "agent"
+        tokens       = [random_password.k3s-server-token.result]
+        alt_names    = []
+        disable      = []
+        datastores   = []
+
+      })
     ]
   }
 }

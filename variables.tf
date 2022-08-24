@@ -1,4 +1,11 @@
 # ========== Proxmox Variables
+variable "pm_api_hostnames" {
+  description = "IPs or hostname for Proxmox API"
+  type        = list(string)
+  sensitive   = false
+  default     = [""]
+}
+
 variable "pm_user" {
   description = "The username for the proxmox user"
   type        = string
@@ -147,4 +154,12 @@ variable "node_worker_disk_size" {
   type        = string
   default     = ""
 }
+
+# ========== K3s variables
+variable "k3s_disable_components" {
+  description = "List of components to disable on k3s"
+  type        = list(string)
+  default     = [""]
+}
+
 
