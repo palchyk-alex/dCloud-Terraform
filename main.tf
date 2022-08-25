@@ -36,7 +36,6 @@ resource "proxmox_vm_qemu" "proxmox_vm_master" {
     user        = "root"
     private_key = var.pvt_key
     host        = var.node_master_ips[count.index]
-    port        = 22
   }
 
   provisioner "remote-exec" {
@@ -67,6 +66,8 @@ resource "proxmox_vm_qemu" "proxmox_vm_workers" {
 
   ipconfig0 = "ip=${var.node_worker_ips[count.index]}/${var.networkrange},gw=${var.gateway}"
 
+  sshkeys = var.pvt_public_key
+
   disk {
     type    = var.node_worker_disk_type
     storage = var.node_worker_disk_storage
@@ -87,7 +88,6 @@ resource "proxmox_vm_qemu" "proxmox_vm_workers" {
     user        = "root"
     private_key = var.pvt_key
     host        = var.node_worker_ips[count.index]
-    port        = 22
   }
 
   provisioner "remote-exec" {

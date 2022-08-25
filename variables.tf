@@ -56,6 +56,12 @@ variable "pvt_key" {
   default     = ""
 }
 
+variable "pvt_public_key" {
+  description = "SSH public key for all nodes"
+  type        = string
+  default     = ""
+}
+
 # ========== Nodes common variables
 variable "gateway" {
   description = "Default Gateway on created VMs"
