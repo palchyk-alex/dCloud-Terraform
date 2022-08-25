@@ -1,4 +1,10 @@
 # ========== Proxmox Variables
+variable "environment" {
+  description = "Environment for K3s cluster"
+  type        = string
+  default     = ""
+}
+
 variable "pm_user" {
   description = "The username for the proxmox user"
   type        = string
