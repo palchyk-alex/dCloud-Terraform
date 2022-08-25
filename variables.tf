@@ -1,4 +1,10 @@
 # ========== Proxmox Variables
+variable "environment" {
+  description = "Environment of k3s cluster"
+  type        = string
+  default     = ""
+}
+
 variable "pm_api_hostname" {
   description = "IP or hostname for Proxmox API"
   type        = string

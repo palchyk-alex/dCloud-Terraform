@@ -6,7 +6,7 @@ resource "random_password" "k3s-server-token" {
 
 resource "proxmox_vm_qemu" "proxmox_vm_master" {
   count       = var.node_master_count
-  name        = "k3s-master-${count.index}"
+  name        = "${var.environment}-k3s-master-${count.index}"
   target_node = var.pm_node_name
   clone       = var.tamplate_vm_name
   os_type     = "cloud-init"
@@ -34,7 +34,7 @@ resource "proxmox_vm_qemu" "proxmox_vm_master" {
   connection {
     type        = "ssh"
     user        = "root"
-    password    = var.pm_password
+    private_key = var.pvt_key
     host        = var.node_master_ips[count.index]
     port        = 22
   }
@@ -57,7 +57,7 @@ resource "proxmox_vm_qemu" "proxmox_vm_workers" {
   ]
 
   count       = var.node_worker_count
-  name        = "k3s-worker-${count.index}"
+  name        = "${var.environment}-k3s-worker-${count.index}"
   target_node = var.pm_node_name
   clone       = var.tamplate_vm_name
   os_type     = "cloud-init"
