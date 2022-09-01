@@ -16,6 +16,7 @@ resource "proxmox_vm_qemu" "proxmox_vm_master" {
 
   ipconfig0 = "ip=${var.node_master_ips[count.index]}/${var.networkrange},gw=${var.gateway}"
 
+  ssh_user        = "root"
   ssh_private_key = var.pvt_key
   sshkeys         = var.pvt_public_key
 
@@ -62,6 +63,7 @@ resource "proxmox_vm_qemu" "proxmox_vm_workers" {
 
   ipconfig0 = "ip=${var.node_worker_ips[count.index]}/${var.networkrange},gw=${var.gateway}"
 
+  ssh_user        = "root"
   ssh_private_key = var.pvt_key
   sshkeys         = var.pvt_public_key
 
