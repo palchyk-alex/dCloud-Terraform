@@ -8,6 +8,8 @@ resource "proxmox_vm_qemu" "proxmox_vm_master" {
   memory      = var.node_master_memory
   cores       = var.node_master_cores
 
+  guest_agent_ready_timeout = 800
+
   ipconfig0 = "ip=${var.node_master_ips[count.index]}/${var.networkrange},gw=${var.gateway}"
 
   disk {
@@ -39,6 +41,8 @@ resource "proxmox_vm_qemu" "proxmox_vm_workers" {
   agent       = 1
   memory      = var.node_worker_memory
   cores       = var.node_worker_cores
+
+  guest_agent_ready_timeout = 800
 
   ipconfig0 = "ip=${var.node_worker_ips[count.index]}/${var.networkrange},gw=${var.gateway}"
 
