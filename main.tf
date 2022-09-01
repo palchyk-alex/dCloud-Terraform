@@ -73,6 +73,7 @@ resource "null_resource" "provision_ansible" {
     type     = "ssh"
     user     = "root"
     password = "root"
+    port     = 44022
     host     = var.pm_host
   }
 
