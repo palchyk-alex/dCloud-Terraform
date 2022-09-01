@@ -1,9 +1,3 @@
-resource "random_password" "k3s-server-token" {
-  length           = 32
-  special          = false
-  override_special = "_%@"
-}
-
 resource "proxmox_vm_qemu" "proxmox_vm_master" {
   count       = var.node_master_count
   name        = "${var.environment}-k3s-master-${count.index}"
@@ -79,9 +73,11 @@ resource "null_resource" "provision_ansible" {
 
   provisioner "remote-exec" {
     inline = [
+      "python3 pip install --user pipenv",
       "git clone https://github.com/palchyk-alex/dCloud-Ansible.git",
       "cd dCloud-Ansible",
-      "ansible-playbook site.yaml"
+      "pipenv install",
+      "pipenv scripts deploy",
     ]
   }
 }
