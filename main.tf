@@ -74,6 +74,7 @@ resource "null_resource" "provision_ansible" {
   provisioner "remote-exec" {
     inline = [
       "pip3 install --user pipenv",
+      "rm -rf dCloud-Ansible"
       "git clone https://github.com/palchyk-alex/dCloud-Ansible.git",
       "cd dCloud-Ansible",
       "pipenv install",
