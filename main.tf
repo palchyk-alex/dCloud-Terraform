@@ -78,6 +78,7 @@ resource "null_resource" "provision_ansible" {
       "git clone https://github.com/palchyk-alex/dCloud-Ansible.git",
       "cd dCloud-Ansible",
       "python3 -m pipenv install",
+      "python3 -m pipenv run install",
       "python3 -m pipenv run deploy",
     ]
   }
