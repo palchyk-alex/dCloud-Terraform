@@ -65,6 +65,10 @@ resource "proxmox_vm_qemu" "proxmox_vm_workers" {
 }
 
 resource "null_resource" "provision_ansible" {
+  depends_on = [
+    proxmox_vm_qemu.proxmox_vm_master,
+    proxmox_vm_qemu.proxmox_vm_workers,
+  ]
   connection {
     type     = "ssh"
     user     = "root"
