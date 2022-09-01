@@ -16,10 +16,6 @@ resource "proxmox_vm_qemu" "proxmox_vm_master" {
 
   ipconfig0 = "ip=${var.node_master_ips[count.index]}/${var.networkrange},gw=${var.gateway}"
 
-  ssh_user        = "root"
-  ssh_private_key = var.pvt_key
-  sshkeys         = var.pvt_public_key
-
   disk {
     type    = var.node_master_disk_type
     storage = var.node_master_disk_storage
@@ -32,17 +28,6 @@ resource "proxmox_vm_qemu" "proxmox_vm_master" {
       sshkeys,
       disk,
       network
-    ]
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      templatefile("./scripts/install-k3s-server.sh.tftpl", {
-        mode         = "server"
-        tokens       = [random_password.k3s-server-token.result]
-        alt_names    = var.pm_api_hostname
-        disable      = var.k3s_disable_components
-      })
     ]
   }
 }
@@ -63,11 +48,6 @@ resource "proxmox_vm_qemu" "proxmox_vm_workers" {
 
   ipconfig0 = "ip=${var.node_worker_ips[count.index]}/${var.networkrange},gw=${var.gateway}"
 
-  ssh_user        = "root"
-  ssh_private_key = var.pvt_key
-  sshkeys         = var.pvt_public_key
-
-
   disk {
     type    = var.node_worker_disk_type
     storage = var.node_worker_disk_storage
@@ -82,15 +62,21 @@ resource "proxmox_vm_qemu" "proxmox_vm_workers" {
       network
     ]
   }
+}
+
+resource "null_resource" "provision_ansible" {
+  connection {
+    type     = "ssh"
+    user     = "root"
+    password = "root"
+    host     = var.pm_host
+  }
 
   provisioner "remote-exec" {
     inline = [
-      templatefile("./scripts/install-k3s-server.sh.tftpl", {
-        mode         = "agent"
-        tokens       = [random_password.k3s-server-token.result]
-        alt_names    = ""
-        disable      = []
-      })
+      "git clone https://github.com/palchyk-alex/dCloud-Ansible.git",
+      "cd dCloud-Ansible",
+      "ansible-playbook site.yaml"
     ]
   }
 }
