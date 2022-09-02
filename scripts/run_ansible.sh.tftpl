@@ -15,6 +15,7 @@ CMD_PIP3=$(command -v pip3)
 CMD_GIT=$(command -v git)
 CMD_CD=$(command -v cd)
 CMD_CAT=$(command -v cat)
+CMD_RM=$(command -v rm)
 
 # ====== Defining functions =========================
 function fn_prerequisites {
@@ -31,8 +32,12 @@ function fn_prerequisites {
 }
 
 function fn_get_ansible_code {
-  if ! rm -rf $REPO_NAME; then
+  if ! $CMD_RM -rf $REPO_NAME; then
     printf "%s" "Repository folder deletion failed"
+  fi
+
+  if ! $CMD_RM -rf ~/.ssh/known_hosts; then
+    printf "%s" "Failed to delete ~/.ssh/known_hosts file"
   fi
 
   if ! $CMD_GIT clone $GIT_REPO_NAME; then
@@ -53,7 +58,7 @@ function fn_compose_hosts_file {
   sed -i '/\[node\]/a ${component} ansible_ssh_private_key_file=~/.ssh/pm_id_rsa' $HOSTS_FILE
   %{ endfor ~}
 
-  printf "%s" "File hosts.ini updated. File content:"
+  printf "%s" "File hosts.ini updated. File content:\n"
   $CMD_CAT $HOSTS_FILE
 }
 
