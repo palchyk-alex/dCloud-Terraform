@@ -58,7 +58,7 @@ function fn_compose_hosts_file {
   sed -i '/\[node\]/a ${component} ansible_ssh_private_key_file=~/.ssh/pm_id_rsa' $HOSTS_FILE
   %{ endfor ~}
 
-  printf "%s" "File hosts.ini updated. File content:\n"
+  printf "%s\n" "File hosts.ini updated. File content:"
   $CMD_CAT $HOSTS_FILE
 }
 
