@@ -1,7 +1,14 @@
 # ========== Proxmox Variables
 variable "environment" {
-  description = "Environment for K3s cluster"
+  description = "Environment of k3s cluster"
   type        = string
+  default     = ""
+}
+
+variable "pm_api_hostname" {
+  description = "IP or hostname for Proxmox API"
+  type        = string
+  sensitive   = false
   default     = ""
 }
 
@@ -48,6 +55,32 @@ variable "pvt_key" {
   type        = string
   default     = ""
 }
+
+variable "pvt_public_key" {
+  description = "SSH public key for all nodes"
+  type        = string
+  default     = ""
+}
+
+# ========== Ansible Variables
+variable "ansible_git_repository" {
+  description = "Ansible repository to clone"
+  type        = string
+  default     = ""
+}
+
+variable "ansible_dir_name" {
+  description = "Directory where ansible is"
+  type        = string
+  default     = ""
+}
+
+variable "ansible_hosts_file_path" {
+  description = "Path to hosts.ini file"
+  type        = string
+  default     = ""
+}
+
 
 # ========== Nodes common variables
 variable "gateway" {
@@ -152,5 +185,12 @@ variable "node_worker_disk_size" {
   description = "Size of disks for workers VMs"
   type        = string
   default     = ""
+}
+
+# ========== K3s variables
+variable "k3s_disable_components" {
+  description = "List of components to disable on k3s"
+  type        = list(string)
+  default     = [""]
 }
 
