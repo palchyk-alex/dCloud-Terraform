@@ -62,6 +62,26 @@ variable "pvt_public_key" {
   default     = ""
 }
 
+# ========== Ansible Variables
+variable "ansible_git_repository" {
+  description = "Ansible repository to clone"
+  type        = string
+  default     = ""
+}
+
+variable "ansible_dir_name" {
+  description = "Directory where ansible is"
+  type        = string
+  default     = ""
+}
+
+variable "ansible_hosts_file_path" {
+  description = "Path to hosts.ini file"
+  type        = string
+  default     = ""
+}
+
+
 # ========== Nodes common variables
 variable "gateway" {
   description = "Default Gateway on created VMs"

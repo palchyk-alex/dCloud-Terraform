@@ -1,9 +1,0 @@
-curl -sfL https://get.k3s.io | sh -s - ${mode} \
-%{ for component in disable ~}
---disable ${component} \
-%{ endfor ~}
---tls-san "${alt_names}" \
-%{ for token in tokens ~}
---token "${token}" \
-%{ endfor ~}
---log $HOME/.k3s-install-log.txt

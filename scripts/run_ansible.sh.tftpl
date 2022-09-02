@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# Script to install required tools and to run Ansible
+
+# Default variables
+GIT_REPO_NAME=${ansible_git_repository}
+REPO_NAME=${ansible_dir_name}
+HOSTS_FILE=${ansible_hosts_file_path}
+
+# ===================================================
+# Functions
+# ====== Utils ======================================
+CMD_PYTHON3=$(command -v python3)
+CMD_PIP3=$(command -v pip3)
+CMD_PIPENV=$(python3 -m pipenv)
+CMD_GIT=$(command -v git)
+
+# ====== Defining functions =========================
+function fn_prerequisites {
+  # Functions to install and check installed tools
+  if ! $CMD_PYTHON3 --version >/dev/null; then
+    printf "%s\n" "Python3 is not installed, install it manualy"
+    exit 1
+  fi
+  if ! $CMD_PIP3 install --user pipenv >/dev/null; then
+    printf "%s\n" "Couldn't install 'pipenv' using 'pip3'"
+    exit 1
+  fi
+}
+
+function fn_get_ansible_code {
+  if ! rm -rf $REPO_NAME; then
+    printf "%s" "Repository folder deletion failed"
+  fi
+
+  if ! $CMD_GIT clone $GIT_REPO; then
+    printf "%s" "Could not clone Ansible git repo"
+    exit 1
+  fi
+}
+
+function fn_compose_hosts_file {
+  # Insert Master IPs
+  %{ for component in master_ips ~}
+  sed  '/\[master\]/a ${component} ansible_ssh_private_key_file=~/.ssh/pm_id_rsa' $HOSTS_FILE
+  %{ endfor ~}
+
+  # Insert Worker IPs
+  %{ for component in worker_ips ~}
+  sed  '/\[node\]/a ${component} ansible_ssh_private_key_file=~/.ssh/pm_id_rsa' $HOSTS_FILE
+  %{ endfor ~}
+}
+
+function fn_install_and_run_ansible {
+  if ! $CMD_PIPENV install; then
+    printf "%s" "Could not install pipenv requirement packages"
+    exit 1
+  fi
+
+  if ! $CMD_PIPENV run install; then
+    printf "%s" "Could not install ansible required modules"
+    exit 1
+  fi
+
+  if ! $CMD_PIPENV run deploy; then
+    printf "%s" "Ansible deployment failed"
+    exit 1
+  fi
+}
+
+# ====== Execution ================================
+fn_prerequisites
+fn_get_ansible_code
+cd $REPO_NAME
+fn_compose_hosts_file
+fn_install_and_run_ansible
+

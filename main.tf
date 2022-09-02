@@ -83,13 +83,13 @@ resource "null_resource" "provision_ansible" {
 
   provisioner "remote-exec" {
     inline = [
-      "pip3 install --user pipenv",
-      "rm -rf dCloud-Ansible",
-      "git clone https://github.com/palchyk-alex/dCloud-Ansible.git",
-      "cd dCloud-Ansible",
-      "python3 -m pipenv install",
-      "python3 -m pipenv run install",
-      "python3 -m pipenv run deploy",
+      templatefile("scripts/run_ansible.sh.tftpl", {
+        ansible_git_repository  = var.ansible_git_repository
+        ansible_dir_name        = var.anslbe_dir_name
+        ansible_hosts_file_path = var.ansible_hosts_file_path
+        master_ips              = var.node_master_ips
+        worker_ips              = var.node_worker_ips
+      })
     ]
   }
 }
