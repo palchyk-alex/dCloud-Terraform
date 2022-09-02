@@ -14,6 +14,8 @@ CMD_PYTHON3=$(command -v python3)
 CMD_PIP3=$(command -v pip3)
 CMD_PIPENV=$(python3 -m pipenv)
 CMD_GIT=$(command -v git)
+CMD_CD=$(command -v cd)
+CMD_CAT=$(command -v cat)
 
 # ====== Defining functions =========================
 function fn_prerequisites {
@@ -26,6 +28,7 @@ function fn_prerequisites {
     printf "%s\n" "Couldn't install 'pipenv' using 'pip3'"
     exit 1
   fi
+  printf "%s" "Python and PIPENV are present"
 }
 
 function fn_get_ansible_code {
@@ -33,10 +36,11 @@ function fn_get_ansible_code {
     printf "%s" "Repository folder deletion failed"
   fi
 
-  if ! $CMD_GIT clone $GIT_REPO; then
+  if ! $CMD_GIT clone $GIT_REPO_NAME; then
     printf "%s" "Could not clone Ansible git repo"
     exit 1
   fi
+  printf "%s" "Repo cloned"
 }
 
 function fn_compose_hosts_file {
@@ -49,6 +53,9 @@ function fn_compose_hosts_file {
   %{ for component in worker_ips ~}
   sed  '/\[node\]/a ${component} ansible_ssh_private_key_file=~/.ssh/pm_id_rsa' $HOSTS_FILE
   %{ endfor ~}
+
+  printf "%s" "File hosts.ini updated. File content:"
+  $CMD_CAT $HOSTS_FILE
 }
 
 function fn_install_and_run_ansible {
@@ -71,7 +78,7 @@ function fn_install_and_run_ansible {
 # ====== Execution ================================
 fn_prerequisites
 fn_get_ansible_code
-cd $REPO_NAME
+$CMD_CD $REPO_NAME
 fn_compose_hosts_file
 fn_install_and_run_ansible
 
