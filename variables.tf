@@ -29,7 +29,7 @@ variable "pm_password" {
 variable "pm_tls_insecure" {
   description = "Set to true to ignore certificate errors"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "pm_host" {
@@ -92,7 +92,7 @@ variable "gateway" {
 variable "networkrange" {
   description = "CIDR block bits"
   type        = number
-  default     = 0
+  default     = 24
 }
 
 variable "tamplate_vm_name" {
@@ -105,19 +105,19 @@ variable "tamplate_vm_name" {
 variable "node_master_count" {
   description = "Number of master nodes"
   type        = number
-  default     = 0
+  default     = 1
 }
 
 variable "node_master_memory" {
   description = "RAM on master nodes"
   type        = string
-  default     = ""
+  default     = "4096"
 }
 
 variable "node_master_cores" {
   description = "Cores on master nodes"
   type        = number
-  default     = 0
+  default     = 4
 }
 
 variable "node_master_ips" {
@@ -129,7 +129,7 @@ variable "node_master_ips" {
 variable "node_master_disk_type" {
   description = "Type of storage on master node"
   type        = string
-  default     = ""
+  default     = "scsi"
 }
 
 variable "node_master_disk_storage" {
@@ -141,26 +141,26 @@ variable "node_master_disk_storage" {
 variable "node_master_disk_size" {
   description = "Size of disks for masters VMs"
   type        = string
-  default     = ""
+  default     = "20G"
 }
 
 # ========== Worker nodes variables
 variable "node_worker_count" {
   description = "Number of worker nodes"
   type        = number
-  default     = 0
+  default     = 4
 }
 
 variable "node_worker_memory" {
   description = "RAM on worker nodes"
   type        = string
-  default     = ""
+  default     = "4096"
 }
 
 variable "node_worker_cores" {
   description = "Cores on worker nodes"
   type        = number
-  default     = 0
+  default     = 4
 }
 
 variable "node_worker_ips" {
@@ -172,7 +172,7 @@ variable "node_worker_ips" {
 variable "node_worker_disk_type" {
   description = "Type of storage on worker node"
   type        = string
-  default     = ""
+  default     = "scsi"
 }
 
 variable "node_worker_disk_storage" {
@@ -184,7 +184,7 @@ variable "node_worker_disk_storage" {
 variable "node_worker_disk_size" {
   description = "Size of disks for workers VMs"
   type        = string
-  default     = ""
+  default     = "20G"
 }
 
 # ========== K3s variables
