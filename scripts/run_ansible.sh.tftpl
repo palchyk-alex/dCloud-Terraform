@@ -12,6 +12,7 @@ HOSTS_FILE=${ansible_hosts_file_path}
 # ====== Utils ======================================
 CMD_PYTHON3=$(command -v python3)
 CMD_PIP3=$(command -v pip3)
+CMD_APT=$(command -v apt)
 CMD_GIT=$(command -v git)
 CMD_CD=$(command -v cd)
 CMD_CAT=$(command -v cat)
@@ -20,6 +21,10 @@ CMD_RM=$(command -v rm)
 # ====== Defining functions =========================
 function fn_prerequisites {
   # Functions to install and check installed tools
+  if ! $CMD_APT install python3-pip; then
+    printf "%s\n" "Could not install pip3!"
+    exit 1
+  fi
   if ! $CMD_PYTHON3 --version >/dev/null; then
     printf "%s\n" "Python3 is not installed, install it manualy"
     exit 1
