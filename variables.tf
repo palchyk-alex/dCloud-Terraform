@@ -114,6 +114,12 @@ variable "node_master_memory" {
   default     = "4096"
 }
 
+variable "node_master_vmid" {
+  description = "ID of the node"
+  type        = number
+  default     = 0
+}
+
 variable "node_master_cores" {
   description = "Cores on master nodes"
   type        = number
@@ -155,6 +161,12 @@ variable "node_worker_memory" {
   description = "RAM on worker nodes"
   type        = string
   default     = "4096"
+}
+
+variable "node_worker_vmid" {
+  description = "ID of the node"
+  type        = number
+  default     = 0
 }
 
 variable "node_worker_cores" {

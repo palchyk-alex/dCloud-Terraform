@@ -1,6 +1,7 @@
 resource "proxmox_vm_qemu" "proxmox_vm_master" {
   count       = var.node_master_count
   name        = "${var.environment}-k3s-master-${count.index}"
+  vmid        = var.node_master_vmid
   target_node = var.pm_node_name
   clone       = var.tamplate_vm_name
   os_type     = "cloud-init"
@@ -38,6 +39,7 @@ resource "proxmox_vm_qemu" "proxmox_vm_workers" {
 
   count       = var.node_worker_count
   name        = "${var.environment}-k3s-worker-${count.index}"
+  vmid        = var.node_worker_vmid
   target_node = var.pm_node_name
   clone       = var.tamplate_vm_name
   os_type     = "cloud-init"
