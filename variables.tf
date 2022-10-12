@@ -101,6 +101,12 @@ variable "tamplate_vm_name" {
   default     = ""
 }
 
+variable "node_sshkeys" {
+  description = "Newline delimited list of SSH public keys to add to authorized keys file for the cloud-init user"
+  type        = string
+  default     = ""
+}
+
 # ========== Master nodes variables
 variable "node_master_count" {
   description = "Number of master nodes"

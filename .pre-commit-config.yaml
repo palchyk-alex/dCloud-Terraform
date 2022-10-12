@@ -1,31 +1,15 @@
 repos:
-  - repo: https://github.com/terraform-docs/terraform-docs
-    rev: "v0.16.0"
-    hooks:
-      - id: terraform-docs-go
-        # Create docs in terraform directory
-        files: (.*\.tf)$
-        args: ["markdown", "table", "--output-file", "README.md", "./"]
-        sections:
-          show:
-            - header
-            - inputs
-            - outputs
-
-        content: |-
-          {{ .Header }}
-
-          Terraform to create k3s cluster
-
-          {{ .Providers }}
-
-          {{ .Inputs }}
-
-          {{ .Outputs }}
-
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: "v1.74.1"
+    rev: "v1.75.0"
     hooks:
       - id: terraform_fmt
-        # Format all files with .tf or .tfvars extension
-        files: (.*\.tf|\.tfvars)$
+        args:
+          - --args=-no-color
+          - --args=-diff
+          - --args=-write=true
+      - id: terraform_docs
+        args:
+          - --hook-config=--path-to-file=README.md
+          - --hook-config=--add-to-existing-file=true
+          - --hook-config=--create-file-if-not-exist=true
+
