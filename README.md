@@ -131,9 +131,6 @@ No modules.
 | <a name="input_pm_password"></a> [pm\_password](#input\_pm\_password) | The password for the proxmox user | `string` | `""` | no |
 | <a name="input_pm_tls_insecure"></a> [pm\_tls\_insecure](#input\_pm\_tls\_insecure) | Set to true to ignore certificate errors | `bool` | `true` | no |
 | <a name="input_pm_user"></a> [pm\_user](#input\_pm\_user) | The username for the proxmox user | `string` | `""` | no |
-| <a name="input_pvt_key"></a> [pvt\_key](#input\_pvt\_key) | SSH private key for all nodes | `string` | `""` | no |
-| <a name="input_pvt_key_path"></a> [pvt\_key\_path](#input\_pvt\_key\_path) | Path to SSH private key for all nodes | `string` | `""` | no |
-| <a name="input_pvt_public_key"></a> [pvt\_public\_key](#input\_pvt\_public\_key) | SSH public key for all nodes | `string` | `""` | no |
 | <a name="input_tamplate_vm_name"></a> [tamplate\_vm\_name](#input\_tamplate\_vm\_name) | Name of template from which to create nodes | `string` | `""` | no |
 
 ## Outputs

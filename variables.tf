@@ -44,24 +44,6 @@ variable "pm_node_name" {
   default     = ""
 }
 
-variable "pvt_key_path" {
-  description = "Path to SSH private key for all nodes"
-  type        = string
-  default     = ""
-}
-
-variable "pvt_key" {
-  description = "SSH private key for all nodes"
-  type        = string
-  default     = ""
-}
-
-variable "pvt_public_key" {
-  description = "SSH public key for all nodes"
-  type        = string
-  default     = ""
-}
-
 # ========== Ansible Variables
 variable "ansible_git_repository" {
   description = "Ansible repository to clone"
