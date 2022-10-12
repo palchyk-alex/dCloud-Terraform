@@ -1,0 +1,14 @@
+node_worker_vmid
+node_master_vmid
+node_sshkeys
+environment
+node_master_ips
+node_master_disk_type
+node_master_disk_size
+node_master_disk_storage
+node_worker_count
+
+
+
+
+
