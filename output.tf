@@ -1,9 +1,11 @@
 output "Master-IPS" {
-  value = ["${proxmox_vm_qemu.proxmox_vm_master.*.default_ipv4_address}"]
+  value       = ["${proxmox_vm_qemu.proxmox_vm_master.*.default_ipv4_address}"]
+  description = "List of master nodes IPs"
 }
 
 output "Worker-IPS" {
-  value = ["${proxmox_vm_qemu.proxmox_vm_workers.*.default_ipv4_address}"]
+  value       = ["${proxmox_vm_qemu.proxmox_vm_workers.*.default_ipv4_address}"]
+  description = "List of worker nodes IPs"
 }
 
 #output "k3s_kubeconfig" {
