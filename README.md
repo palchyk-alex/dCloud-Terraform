@@ -2,6 +2,8 @@
 
 This repo contains terraform that deploys infrastructure for k3s cluster, and then applies **Ansible** that sets up k3s nodes.
 
+Before deploying from scratch, you need to create passwordless SSH keys with name ```pm_id_rsa``` on Proxmox node (**pm_node_name** variable) 
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
