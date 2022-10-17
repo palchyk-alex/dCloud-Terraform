@@ -56,8 +56,7 @@ function fn_compose_hosts_file {
   # Insert Master IPs
 
   %{ for component in master_ips ~}
-  %{ if component == master_ips[0] }sed -i '/\[main_master\]/a ${component} ansible_ssh_private_key_file=~/.ssh/pm_id_rsa' $HOSTS_FILE%{ endif ~}
-  %{ if component != master_ips[0] }sed -i '/\[supp_master\]/a ${component} ansible_ssh_private_key_file=~/.ssh/pm_id_rsa' $HOSTS_FILE%{ endif ~}
+  sed -i '/\[master\]/a ${component} ansible_ssh_private_key_file=~/.ssh/pm_id_rsa' $HOSTS_FILE
   %{ endfor ~}
 
   # Insert Worker IPs

@@ -27,7 +27,7 @@ Then you need to created cloud-init template:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_null"></a> [null](#provider\_null) | n/a |
+| <a name="provider_null"></a> [null](#provider\_null) | 3.1.1 |
 | <a name="provider_proxmox"></a> [proxmox](#provider\_proxmox) | 2.9.11 |
 
 ## Modules

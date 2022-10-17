@@ -1,4 +1,12 @@
 terraform {
+  backend "remote" {
+    organization = "distributedCloud"
+
+    workspaces {
+      name = "dCloud-Terraform-SandBox"
+    }
+  }
+
   required_providers {
     proxmox = {
       source  = "telmate/proxmox"
